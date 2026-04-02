@@ -1,0 +1,32 @@
+{
+  "name": "task-management-webapp",
+  "version": "1.0.0",
+  "description": "Server-rendered task management app using Express, MongoDB, EJS, and Tailwind CSS.",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "start": "node server.js",
+    "build:css": "tailwindcss -i ./src/styles.css -o ./public/css/styles.css",
+    "build": "npm run build:css"
+  },
+  "keywords": [
+    "express",
+    "ejs",
+    "mongoose",
+    "tailwindcss"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^17.3.1",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "express-session": "^1.18.2",
+    "method-override": "^3.0.0",
+    "mongoose": "^8.19.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10",
+    "tailwindcss": "^3.4.17"
+  }
+}
