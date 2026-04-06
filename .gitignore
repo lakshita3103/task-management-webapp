@@ -1,3 +1,8 @@
-node_modules
+node_modules/
+backend/node_modules/
+frontend/node_modules/
+frontend/dist/
 .env
-public/css/styles.css
+backend/.env
+frontend/.env
+npm-debug.log*

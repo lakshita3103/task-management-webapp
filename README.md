@@ -1,119 +1,108 @@
-# Task Management Webapp
+# TaskFlow React Migration
 
-This project is now a single Express application that uses:
+This project has been migrated from an EJS server-rendered frontend to a React SPA while keeping the Express + MongoDB backend intact as the API and data layer.
 
-- Node.js + Express
-- MongoDB + Mongoose
-- EJS for server-rendered views
-- Tailwind CSS for styling
-
-## What changed
-
-The original repository had a split setup:
-
-- `main` contained Express + MongoDB API code
-- `frontend` only added static styling files on top of the React client
-
-That created a few problems:
-
-- the frontend and backend were still separated
-- the styled UI in `frontend` was not actually connected to the task data
-- data flow depended on client-side API requests instead of server-rendered pages
-- models stored relationships as plain strings instead of Mongoose references
-- auth files existed but were incomplete and not connected to the rest of the app
-
-This version combines everything into one beginner-friendly server-rendered app.
-
-## Folder structure
+## Project Structure
 
 ```text
 task-management-webapp/
-|-- app.js
-|-- server.js
-|-- package.json
-|-- .env.example
-|-- tailwind.config.js
-|-- config/
-|   `-- database.js
-|-- controllers/
-|   |-- boardController.js
-|   |-- homeController.js
-|   |-- listController.js
-|   `-- taskController.js
-|-- middleware/
-|   |-- asyncHandler.js
-|   |-- errorHandler.js
-|   `-- flashMiddleware.js
-|-- models/
-|   |-- Board.js
-|   |-- List.js
-|   `-- Task.js
-|-- public/
-|   `-- css/
-|       `-- styles.css
-|-- routes/
-|   |-- boardRoutes.js
-|   |-- homeRoutes.js
-|   |-- listRoutes.js
-|   `-- taskRoutes.js
-|-- src/
-|   `-- styles.css
-`-- views/
-    |-- error.ejs
-    |-- boards/
-    |   `-- index.ejs
-    `-- partials/
-        |-- empty-state.ejs
-        |-- flash.ejs
-        |-- foot.ejs
-        `-- head.ejs
+├── backend/   # Express + MongoDB + Mongoose API
+├── frontend/  # React + Vite SPA
+└── .gitignore
 ```
 
-## Setup
+## Backend API
 
-1. Install dependencies:
+The backend now exposes JSON APIs while preserving the same board, list, and task behaviors:
+
+- `GET /api/health`
+- `GET /api/boards`
+- `GET /api/boards/:boardId`
+- `POST /api/boards`
+- `DELETE /api/boards/:boardId`
+- `POST /api/boards/:boardId/lists`
+- `DELETE /api/boards/:boardId/lists/:listId`
+- `POST /api/lists/:listId/tasks`
+- `PATCH /api/lists/:listId/tasks/:taskId`
+- `DELETE /api/lists/:listId/tasks/:taskId`
+
+## Frontend
+
+The new frontend uses:
+
+- React with Vite
+- React Router
+- Functional components and hooks
+- Fetch-based API services
+- Environment-based API URL via `VITE_API_BASE_URL`
+- Loading and error states
+
+## Run the Backend
 
 ```bash
+cd backend
+npm install
+copy .env.example .env
+npm run dev
+```
+
+Backend runs on `http://localhost:5000`
+
+## Run the Frontend
+
+```bash
+cd frontend
+npm install
+copy .env.example .env
+npm run dev
+```
+
+Frontend runs on `http://localhost:5173`
+
+The Vite dev server proxies `/api` requests to the backend.
+
+## Run Both Together
+
+Install dependencies once in each location:
+
+```bash
+cd backend
+npm install
+
+cd ..\frontend
+npm install
+
+cd ..
 npm install
 ```
 
-2. Create an environment file:
-
-```bash
-copy .env.example .env
-```
-
-3. Make sure MongoDB is running locally.
-
-4. Build Tailwind CSS:
-
-```bash
-npm run build:css
-```
-
-5. Start the app:
+Then from the project root run:
 
 ```bash
 npm run dev
 ```
 
-Then open [http://localhost:5000](http://localhost:5000).
+This starts:
 
-## Environment variables
+- backend on `http://localhost:5000`
+- frontend on `http://localhost:5173`
 
-- `PORT` - Express server port
-- `MONGODB_URI` - MongoDB connection string
-- `SESSION_SECRET` - session secret used for flash messages
+## Production
 
-## Main routes
+Build the frontend first:
 
-- `GET /` redirect to boards dashboard
-- `GET /boards` show all boards
-- `GET /boards/:boardId` show one board with its lists and tasks
-- `POST /boards` create a board
-- `DELETE /boards/:boardId` delete a board and its related data
-- `POST /boards/:boardId/lists` create a list
-- `DELETE /boards/:boardId/lists/:listId` delete a list and its tasks
-- `POST /lists/:listId/tasks` create a task
-- `PATCH /lists/:listId/tasks/:taskId` toggle task completion
-- `DELETE /lists/:listId/tasks/:taskId` delete a task
+```bash
+cd frontend
+npm install
+npm run build
+```
+
+Then start the backend:
+
+```bash
+cd backend
+npm install
+npm start
+```
+
+If `frontend/dist` exists, the backend serves the React build directly.
