@@ -3,7 +3,6 @@ const cors = require("cors");
 const fs = require("fs");
 const path = require("path");
 
-const connectDatabase = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
 const apiBoardRoutes = require("./routes/api/boardRoutes");
 const apiListRoutes = require("./routes/api/listRoutes");
@@ -13,8 +12,6 @@ const { notFoundHandler, errorHandler } = require("./middleware/errorHandler");
 
 const app = express();
 const frontendDistPath = path.join(__dirname, "..", "frontend", "dist");
-
-connectDatabase();
 
 app.use(
   cors({
