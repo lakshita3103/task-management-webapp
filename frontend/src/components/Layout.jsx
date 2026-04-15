@@ -1,6 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 
 import { useAuth } from "../context/AuthContext";
+import ThemeToggle from "./ThemeToggle";
 
 function Layout({ children }) {
   const location = useLocation();
@@ -22,6 +23,7 @@ function Layout({ children }) {
             </p>
           </div>
           <div className="app-header__actions">
+            <ThemeToggle />
             {isAuthenticated ? (
               <>
                 <div className="user-chip">
