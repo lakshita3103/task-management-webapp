@@ -236,13 +236,38 @@ function BoardsPage() {
         />
 
         <section className="workspace-panel">
-          <div className="panel-heading">
+          <div className="board-hero-card">
             <div>
               <p className="eyebrow">Kanban workspace</p>
               <h2>{selectedBoard ? selectedBoard.title : "Board details"}</h2>
               <p>{selectedBoard ? selectedBoard.description || "Create lists and cards to track work visually." : `Choose a board from the ${boardCountLabel} in your workspace.`}</p>
             </div>
+            {selectedBoard && (
+              <div className="board-hero-metrics">
+                <span className="mini-pill">{selectedBoard.lists.length} lists</span>
+                <span className="mini-pill">
+                  {selectedBoard.lists.reduce((count, list) => count + list.tasks.length, 0)} cards
+                </span>
+              </div>
+            )}
           </div>
+
+          {selectedBoard && (
+            <div className="board-summary-grid">
+              <article className="board-summary-card">
+                <p className="eyebrow">Open lists</p>
+                <strong>{selectedBoard.lists.length}</strong>
+              </article>
+              <article className="board-summary-card">
+                <p className="eyebrow">Total cards</p>
+                <strong>{selectedBoard.lists.reduce((count, list) => count + list.tasks.length, 0)}</strong>
+              </article>
+              <article className="board-summary-card">
+                <p className="eyebrow">Completed</p>
+                <strong>{selectedBoard.lists.reduce((count, list) => count + list.tasks.filter((task) => task.completed).length, 0)}</strong>
+              </article>
+            </div>
+          )}
 
           {success && <div className="alert success">{success}</div>}
           {error && <div className="alert error">{error}</div>}
@@ -263,7 +288,7 @@ function BoardsPage() {
             />
           ) : (
             <>
-              <form className="stack-card list-form" onSubmit={handleCreateList}>
+              <form className="stack-card board-actions-card list-form" onSubmit={handleCreateList}>
                 <div>
                   <h3>Add a new column</h3>
                   <p>Create lists such as To Do, In Progress, and Done.</p>

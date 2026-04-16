@@ -4,7 +4,7 @@ function TaskCard({ task, onToggle, onDelete }) {
       <div className="task-card__header">
         <div>
           <span className={`status-pill ${task.completed ? "done" : "pending"}`}>
-            {task.completed ? "Done" : "In Progress"}
+            {task.completed ? "Done" : "In progress"}
           </span>
           <h4>{task.title}</h4>
         </div>
@@ -12,9 +12,9 @@ function TaskCard({ task, onToggle, onDelete }) {
 
       <p>{task.description || "No description provided for this card."}</p>
 
-      <div className="task-card__actions">
+      <div className="task-card__actions task-card__footer">
         <button type="button" className="secondary-button" onClick={onToggle}>
-          {task.completed ? "Move back" : "Move forward"}
+          {task.completed ? "Reopen" : "Complete"}
         </button>
         <button type="button" className="danger-button" onClick={onDelete}>
           Delete

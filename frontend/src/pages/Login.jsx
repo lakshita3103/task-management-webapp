@@ -41,8 +41,13 @@ function Login() {
     <Layout>
       <section className="auth-shell">
         <div className="auth-card">
-          <p className="eyebrow">Welcome back</p>
-          <h2>Log in to TaskFlow</h2>
+          <div className="auth-card__top">
+            <div>
+              <p className="eyebrow">Welcome back</p>
+              <h2>Log in to TaskFlow</h2>
+            </div>
+            <span className="auth-card__pill">Secure access</span>
+          </div>
           <p className="auth-copy">Access your boards, lists, and task cards with your secure account.</p>
 
           {error && <div className="alert error">{error}</div>}

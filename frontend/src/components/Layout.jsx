@@ -15,14 +15,15 @@ function Layout({ children }) {
     <div className="app-shell">
       <header className="app-header">
         <div className="app-header__inner">
-          <div>
-            <p className="eyebrow">TaskFlow Workspace</p>
-            <h1>Task Management Dashboard</h1>
-            <p className="hero-copy">
-              Manage boards, lists, and task cards from a modern React frontend backed by secure Express, MongoDB, and JWT authentication.
-            </p>
+          <div className="app-header__brand">
+            <h1>TaskFlow</h1>
+            <div className="header-summary">
+              <span className="mini-pill">Quick board access</span>
+              <span className="mini-pill">Clean overview</span>
+            </div>
           </div>
-          <div className="app-header__actions">
+
+          <div className="app-header__actions header-actions-panel">
             <ThemeToggle />
             {isAuthenticated ? (
               <>

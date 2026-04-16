@@ -14,10 +14,11 @@ function BoardSidebar({
   const filteredBoards = boards.filter((board) =>
     board.title.toLowerCase().includes(search.toLowerCase())
   );
+  const activeBoard = boards.find((board) => board._id === boardId);
 
   return (
-    <aside className="sidebar-card">
-      <div className="panel-heading">
+    <aside className="sidebar-card sidebar-panel">
+      <div className="panel-heading sidebar-card__header">
         <div>
           <p className="eyebrow">Workspace overview</p>
           <h2>My Boards</h2>
@@ -25,17 +26,30 @@ function BoardSidebar({
         <span className="pill">{boards.length} boards</span>
       </div>
 
-      <div className="search-block">
-        <input
-          type="search"
-          value={search}
-          onChange={(event) => onSearchChange(event.target.value)}
-          placeholder="Search boards by name"
-          className="text-input"
-        />
+      <div className="sidebar-summary sidebar-summary--compact">
+        <div className="metric-card">
+          <span>Current board</span>
+          <strong>{activeBoard?.title || "Choose a board"}</strong>
+        </div>
+        <div className="metric-card">
+          <span>Total cards</span>
+          <strong>{boards.reduce((total, board) => total + (board.lists?.reduce((count, list) => count + (list.tasks?.length || 0), 0) || 0), 0)} cards</strong>
+        </div>
       </div>
 
-      <form className="stack-card" onSubmit={onCreateBoard}>
+      <div className="sidebar-card__section">
+        <div className="search-block">
+          <input
+            type="search"
+            value={search}
+            onChange={(event) => onSearchChange(event.target.value)}
+            placeholder="Search boards by name"
+            className="text-input"
+          />
+        </div>
+      </div>
+
+      <form className="stack-card sidebar-card__section" onSubmit={onCreateBoard}>
         <div className="stack-card__header">
           <div>
             <h3>Create a new board</h3>
